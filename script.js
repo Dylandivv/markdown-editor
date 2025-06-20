@@ -13,7 +13,12 @@ window.addEventListener('DOMContentLoaded', () => {
     mode: 'markdown',
     theme: 'default',
     lineWrapping: true,
+    gutters: ["CodeMirror-linenumbers"],
   });
+
+  const style = document.createElement('style');
+  style.textContent = `.CodeMirror-linenumber { color: white; font-weight: bold; }`;
+  document.head.appendChild(style);
 
   editorInstance.on('change', updatePreview);
   fileInput.addEventListener('change', handleFileUpload);
@@ -27,7 +32,6 @@ function updatePreview() {
   document.getElementById('preview').innerHTML = marked.parse(content);
 }
 
-// 파일 업로드
 function handleFileUpload(e) {
   const file = e.target.files[0];
   if (!file) return;
@@ -46,7 +50,6 @@ function handleFileUpload(e) {
   reader.readAsText(file);
 }
 
-// 트리 초기화
 function initFileTree() {
   const root = document.getElementById('fileTree');
   root.innerHTML = '';
@@ -58,7 +61,6 @@ function initFileTree() {
   root.appendChild(temp);
 }
 
-// 트리 아이템 생성
 function createTreeItem(name, isFolder = false, depth = 0) {
   const item = document.createElement('div');
   item.className = 'tree-item';
@@ -67,9 +69,6 @@ function createTreeItem(name, isFolder = false, depth = 0) {
 
   item.innerHTML = `<span class="indent" style="margin-left: ${depth * 16}px;"></span>${name}`;
   item.onclick = () => {
-    const prev = document.querySelector('.tree-item.selected');
-    if (prev) prev.classList.remove('selected');
-    item.classList.add('selected');
     selectedNode = item;
   };
 
