@@ -1,0 +1,50 @@
+body {
+  margin: 0;
+  font-family: sans-serif;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: #fff;
+  color: #000;
+  transition: background 0.3s, color 0.3s;
+}
+
+body.dark {
+  background: #1e1e1e;
+  color: #ccc;
+}
+
+.toolbar {
+  padding: 10px;
+  display: flex;
+  gap: 10px;
+  background: #eee;
+}
+
+body.dark .toolbar {
+  background: #2e2e2e;
+}
+
+.container {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+#editor, .CodeMirror {
+  width: 50%;
+  height: 100%;
+  font-size: 16px;
+}
+
+#preview {
+  width: 50%;
+  padding: 20px;
+  overflow-y: auto;
+  border-left: 1px solid #ccc;
+}
+
+body.dark #preview {
+  background: #222;
+  color: #eee;
+}
