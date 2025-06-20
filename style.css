@@ -1,72 +1,38 @@
 body {
   margin: 0;
-  font-family: sans-serif;
-  display: flex;
-  flex-direction: column;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #1e1e1e;
+  color: #d4d4d4;
   height: 100vh;
-  background: #fff;
-  color: #000;
-  transition: background 0.3s, color 0.3s;
-}
-
-body.dark {
-  background: #1e1e1e;
-  color: #ccc;
-}
-
-.toolbar {
-  padding: 10px;
   display: flex;
-  gap: 10px;
-  background: #eee;
-}
-
-body.dark .toolbar {
-  background: #2e2e2e;
-}
-
-.container {
-  display: flex;
-  flex: 1;
-  height: calc(100vh - 50px); /* 툴바 제외 */
   overflow: hidden;
 }
 
-#editor,
-.CodeMirror {
+#container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+#editor, #preview {
   width: 50%;
   height: 100%;
-  font-size: 16px;
-}
-
-body.dark .CodeMirror {
-  background: #1e1e1e !important;
-  color: #eee;
-}
-
-body.dark .CodeMirror-lines {
-  background: #1e1e1e;
-  color: #eee;
-}
-
-.CodeMirror {
-  height: 100% !important;
-}
-
-.divider {
-  width: 10px;
-  background: #ccc;
-  cursor: col-resize;
-}
-
-#preview {
-  width: 50%;
-  padding: 20px;
   overflow-y: auto;
-  border-left: 1px solid #ccc;
+  padding: 16px;
+  box-sizing: border-box;
+  background-color: #1e1e1e;
+  color: #d4d4d4;
+  font-size: 16px;
+  line-height: 1.6;
+  border: none;
+  resize: none;
 }
 
-body.dark #preview {
-  background: #222;
-  color: #eee;
+#editor {
+  outline: none;
+}
+
+#divider {
+  width: 4px;
+  background-color: #555;
 }
