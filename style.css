@@ -1,3 +1,4 @@
+/* 기본 레이아웃 설정 */
 body {
   margin: 0;
   font-family: sans-serif;
@@ -14,6 +15,7 @@ body.dark {
   color: #ccc;
 }
 
+/* 상단 툴바 */
 .toolbar {
   padding: 10px;
   display: flex;
@@ -25,18 +27,22 @@ body.dark .toolbar {
   background: #2e2e2e;
 }
 
+/* 에디터 + 미리보기 컨테이너 */
 .container {
   display: flex;
   flex: 1;
+  height: calc(100vh - 50px); /* 툴바 높이 제외 전체 */
   overflow: hidden;
 }
 
+/* 좌측 에디터 영역 */
 #editor, .CodeMirror {
-  width: 50%;
+  width: 100%;
   height: 100%;
   font-size: 16px;
 }
 
+/* 우측 Preview 영역 */
 #preview {
   width: 50%;
   padding: 20px;
@@ -47,4 +53,9 @@ body.dark .toolbar {
 body.dark #preview {
   background: #222;
   color: #eee;
+}
+
+/* CodeMirror 강제 높이 수정 */
+.CodeMirror {
+  height: 100% !important;
 }
