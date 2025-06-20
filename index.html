@@ -11,15 +11,16 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/markdown/markdown.min.js"></script>
 </head>
 <body>
+  <div class="topbar">
+    <button onclick="createFolder()">📁 폴더 생성</button>
+    <button onclick="createFile()">📄 파일 생성</button>
+    <button onclick="renameItem()">✏ 이름변경</button>
+    <button onclick="deleteItem()">🗑 삭제</button>
+    <input type="file" id="fileInput" />
+  </div>
+
   <div class="app-container">
     <div class="sidebar">
-      <div class="topbar">
-        <button onclick="createFolder()">📁 폴더 생성</button>
-        <button onclick="createFile()">📄 파일 생성</button>
-        <button onclick="renameItem()">✏ 이름변경</button>
-        <button onclick="deleteItem()">🗑 삭제</button>
-        <input type="file" id="fileInput" />
-      </div>
       <div id="fileTree"></div>
     </div>
 
