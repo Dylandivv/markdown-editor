@@ -1,66 +1,18 @@
-let editorInstance;
+const editor = document.getElementById('editor');
+const preview = document.getElementById('preview');
 
-window.addEventListener('DOMContentLoaded', () => {
-  const textarea = document.getElementById('editor');
-  const fileInput = document.getElementById('fileInput');
-  const darkToggle = document.getElementById('darkModeToggle');
+// 기본 마크다운 변환기 (간단 버전)
+function renderMarkdown(text) {
+  return text
+    .replace(/^### (.*$)/gim, '<h3>$1</h3>')
+    .replace(/^## (.*$)/gim, '<h2>$1</h2>')
+    .replace(/^# (.*$)/gim, '<h1>$1</h1>')
+    .replace(/\*\*(.*?)\*\*/gim, '<b>$1</b>')
+    .replace(/\*(.*?)\*/gim, '<i>$1</i>')
+    .replace(/\n$/gim, '<br />');
+}
 
-  editorInstance = CodeMirror.fromTextArea(textarea, {
-    lineNumbers: true,
-    mode: 'markdown',
-    theme: 'default'
-  });
-
-  editorInstance.on('change', updatePreview);
-  updatePreview();
-
-  fileInput.addEventListener('change', handleFileUpload);
-  darkToggle.addEventListener('click', () =>
-    document.body.classList.toggle('dark')
-  );
+editor.addEventListener('input', () => {
+  const markdownText = editor.value;
+  preview.innerHTML = renderMarkdown(markdownText);
 });
-
-function updatePreview() {
-  const content = editorInstance.getValue();
-  const mode = editorInstance.getOption('mode');
-  const preview = document.getElementById('preview');
-
-  if (mode === 'markdown') {
-    preview.innerHTML = marked.parse(content);
-  } else {
-    preview.innerHTML = `<pre>${escapeHtml(content)}</pre>`;
-  }
-}
-
-function handleFileUpload(e) {
-  const file = e.target.files[0];
-  if (!file) return;
-
-  const reader = new FileReader();
-  reader.onload = e => {
-    const content = e.target.result;
-    editorInstance.setValue(content);
-
-    if (file.name.endsWith('.json')) {
-      editorInstance.setOption('mode', 'javascript');
-    } else if (file.name.endsWith('.md') || file.name.endsWith('.markdown')) {
-      editorInstance.setOption('mode', 'markdown');
-    } else {
-      editorInstance.setOption('mode', 'text/plain');
-    }
-
-    updatePreview();
-  };
-
-  reader.readAsText(file);
-}
-
-function escapeHtml(text) {
-  return text.replace(/[&<>"']/g, m => ({
-    '&': '&amp;',
-    '<': '&lt;',
-    '>': '&gt;',
-    '"': '&quot;',
-    "'": '&#039;'
-  }[m]));
-}
