@@ -1,63 +1,74 @@
-let editorInstance;
-
-window.addEventListener('DOMContentLoaded', () => {
-  const textarea = document.getElementById('editor');
-  const preview = document.getElementById('preview');
-  const fileInput = document.getElementById('fileInput');
-  const darkToggle = document.getElementById('darkModeToggle');
-
-  editorInstance = CodeMirror.fromTextArea(textarea, {
-    lineNumbers: true,
-    mode: 'markdown',
-    theme: 'default'
-  });
-
-  editorInstance.on('change', updatePreview);
-  updatePreview();
-
-  fileInput.addEventListener('change', handleFileUpload);
-  darkToggle.addEventListener('click', toggleDarkMode);
-});
-
-function updatePreview() {
-  const content = editorInstance.getValue();
-  const mode = editorInstance.getOption('mode');
-
-  if (mode === 'markdown') {
-    document.getElementById('preview').innerHTML = marked.parse(content);
-  } else {
-    document.getElementById('preview').innerHTML = `<pre>${escapeHtml(content)}</pre>`;
-  }
+body {
+  margin: 0;
+  font-family: sans-serif;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: #fff;
+  color: #000;
+  transition: background 0.3s, color 0.3s;
 }
 
-function handleFileUpload(e) {
-  const file = e.target.files[0];
-  if (!file) return;
-
-  const reader = new FileReader();
-  reader.onload = function (e) {
-    const content = e.target.result;
-    editorInstance.setValue(content);
-
-    if (file.name.endsWith('.json')) {
-      editorInstance.setOption('mode', 'javascript');
-    } else if (file.name.endsWith('.md') || file.name.endsWith('.markdown')) {
-      editorInstance.setOption('mode', 'markdown');
-    } else {
-      editorInstance.setOption('mode', 'text/plain');
-    }
-
-    updatePreview();
-  };
-  reader.readAsText(file);
+body.dark {
+  background: #1e1e1e;
+  color: #ccc;
 }
 
-function toggleDarkMode() {
-  document.body.classList.toggle('dark');
+.toolbar {
+  padding: 10px;
+  display: flex;
+  gap: 10px;
+  background: #eee;
 }
 
-function escapeHtml(text) {
-  return text.replace(/[&<>"']/g, m =>
-    ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;' }[m])
-  );
+body.dark .toolbar {
+  background: #2e2e2e;
+}
+
+.container {
+  display: flex;
+  flex: 1;
+  height: calc(100vh - 50px); /* 툴바 제외 전체 높이 */
+  overflow: hidden;
+}
+
+/* 좌측 에디터 */
+#editor,
+.CodeMirror {
+  width: 50%;
+  height: 100%;
+  font-size: 16px;
+}
+
+/* 다크모드에서도 에디터 색상 반전 */
+body.dark .CodeMirror {
+  background: #1e1e1e !important;
+  color: #eee;
+}
+body.dark .CodeMirror-lines {
+  background: #1e1e1e;
+  color: #eee;
+}
+.CodeMirror {
+  height: 100% !important;
+}
+
+/* 중앙 구분선 (회색, 10px) */
+.divider {
+  width: 10px;
+  background: #ccc;
+  cursor: col-resize;
+}
+
+/* Preview 창 */
+#preview {
+  width: 50%;
+  padding: 20px;
+  overflow-y: auto;
+  border-left: 1px solid #ccc;
+}
+
+body.dark #preview {
+  background: #222;
+  color: #eee;
 }
