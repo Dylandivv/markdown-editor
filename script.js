@@ -1,18 +1,103 @@
-const editor = document.getElementById('editor');
-const preview = document.getElementById('preview');
+let editorInstance;
+let selectedNode = null;
+let fileCounter = 1;
+let folderCounter = 1;
 
-// 기본 마크다운 변환기 (간단 버전)
-function renderMarkdown(text) {
-  return text
-    .replace(/^### (.*$)/gim, '<h3>$1</h3>')
-    .replace(/^## (.*$)/gim, '<h2>$1</h2>')
-    .replace(/^# (.*$)/gim, '<h1>$1</h1>')
-    .replace(/\*\*(.*?)\*\*/gim, '<b>$1</b>')
-    .replace(/\*(.*?)\*/gim, '<i>$1</i>')
-    .replace(/\n$/gim, '<br />');
+window.addEventListener('DOMContentLoaded', () => {
+  const textarea = document.getElementById('editor');
+  const preview = document.getElementById('preview');
+  const fileInput = document.getElementById('fileInput');
+
+  editorInstance = CodeMirror.fromTextArea(textarea, {
+    lineNumbers: true,
+    mode: 'markdown',
+    theme: 'default',
+    lineWrapping: true,
+  });
+
+  editorInstance.on('change', updatePreview);
+  fileInput.addEventListener('change', handleFileUpload);
+
+  updatePreview();
+  initFileTree();
+});
+
+function updatePreview() {
+  const content = editorInstance.getValue();
+  document.getElementById('preview').innerHTML = marked.parse(content);
 }
 
-editor.addEventListener('input', () => {
-  const markdownText = editor.value;
-  preview.innerHTML = renderMarkdown(markdownText);
-});
+// 파일 업로드
+function handleFileUpload(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function () {
+    const content = reader.result;
+    if (file.name.endsWith('.json')) {
+      editorInstance.setOption('mode', 'javascript');
+    } else {
+      editorInstance.setOption('mode', 'markdown');
+    }
+    editorInstance.setValue(content);
+    updatePreview();
+  };
+  reader.readAsText(file);
+}
+
+// 트리 초기화
+function initFileTree() {
+  const root = document.getElementById('fileTree');
+  root.innerHTML = '';
+
+  const trash = createTreeItem('Trash', true);
+  const temp = createTreeItem('Temp', true);
+
+  root.appendChild(trash);
+  root.appendChild(temp);
+}
+
+// 트리 아이템 생성
+function createTreeItem(name, isFolder = false, depth = 0) {
+  const item = document.createElement('div');
+  item.className = 'tree-item';
+  item.dataset.type = isFolder ? 'folder' : 'file';
+  item.dataset.depth = depth;
+
+  item.innerHTML = `<span class="indent" style="margin-left: ${depth * 16}px;"></span>${name}`;
+  item.onclick = () => {
+    const prev = document.querySelector('.tree-item.selected');
+    if (prev) prev.classList.remove('selected');
+    item.classList.add('selected');
+    selectedNode = item;
+  };
+
+  return item;
+}
+
+function createFolder() {
+  const newFolder = createTreeItem(`Folder_${folderCounter++}`, true, 1);
+  document.getElementById('fileTree').appendChild(newFolder);
+}
+
+function createFile() {
+  const newFile = createTreeItem(`File_${fileCounter++}.md`, false, 1);
+  document.getElementById('fileTree').appendChild(newFile);
+}
+
+function deleteItem() {
+  if (selectedNode) {
+    selectedNode.remove();
+    selectedNode = null;
+  }
+}
+
+function renameItem() {
+  if (selectedNode) {
+    const newName = prompt('새 이름을 입력하세요:', selectedNode.textContent.trim());
+    if (newName) {
+      selectedNode.childNodes[1].textContent = newName;
+    }
+  }
+}
