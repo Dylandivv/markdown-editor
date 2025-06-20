@@ -1,29 +1,25 @@
-// script.js - StackEdit 스타일 기반 기능
+// script.js - StackEdit 스타일 기반 기능 구현
 
 let editor, currentMode = 'markdown';
 
-// CodeMirror 초기화
 window.onload = function () {
   editor = CodeMirror(document.getElementById('editor'), {
     mode: 'markdown',
     lineNumbers: true,
+    lineWrapping: true,
     theme: 'default',
-    lineWrapping: true
   });
 
-  editor.on("change", updatePreview);
-
-  // divider drag 지원
+  editor.on('change', updatePreview);
+  document.getElementById('fileInput').addEventListener('change', handleFileUpload);
   initDivider();
 };
 
-// Preview 갱신
 function updatePreview() {
   const content = editor.getValue();
   const preview = document.getElementById('preview');
-  if (currentMode === 'markdown') {
-    preview.innerHTML = marked.parse(content);
-  } else if (currentMode === 'json') {
+
+  if (currentMode === 'json') {
     try {
       const parsed = JSON.parse(content);
       preview.textContent = JSON.stringify(parsed, null, 2);
@@ -31,44 +27,10 @@ function updatePreview() {
       preview.textContent = 'Invalid JSON';
     }
   } else {
-    preview.textContent = content;
+    preview.innerHTML = marked.parse(content);
   }
 }
 
-// divider drag 기능
-function initDivider() {
-  const divider = document.querySelector('.divider');
-  const editorContainer = document.querySelector('.editor-container');
-  const previewContainer = document.querySelector('.preview-container');
-
-  let isDragging = false;
-
-  divider.addEventListener('mousedown', (e) => {
-    isDragging = true;
-    document.body.style.cursor = 'ew-resize';
-    e.preventDefault();
-  });
-
-  window.addEventListener('mousemove', (e) => {
-    if (!isDragging) return;
-    const totalWidth = divider.parentElement.offsetWidth;
-    const offsetX = e.clientX - divider.parentElement.offsetLeft;
-
-    const min = totalWidth * 0.2;
-    const max = totalWidth * 0.8;
-    const leftWidth = Math.min(Math.max(offsetX, min), max);
-
-    editorContainer.style.flex = `0 0 ${leftWidth}px`;
-    previewContainer.style.flex = `1 1 ${totalWidth - leftWidth - 5}px`;
-  });
-
-  window.addEventListener('mouseup', () => {
-    isDragging = false;
-    document.body.style.cursor = 'default';
-  });
-}
-
-// 파일 로드
 function handleFileUpload(event) {
   const file = event.target.files[0];
   if (!file) return;
@@ -80,7 +42,6 @@ function handleFileUpload(event) {
   };
   reader.readAsText(file);
 
-  // 확장자에 따라 모드 변경
   const ext = file.name.split('.').pop();
   if (ext === 'json') {
     currentMode = 'json';
@@ -92,4 +53,51 @@ function handleFileUpload(event) {
     currentMode = 'markdown';
     editor.setOption('mode', 'markdown');
   }
+}
+
+function initDivider() {
+  const divider = document.querySelector('.divider');
+  const editorContainer = document.querySelector('.editor-container');
+  const previewContainer = document.querySelector('.preview-container');
+
+  let isDragging = false;
+
+  divider.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    document.body.style.cursor = 'col-resize';
+    e.preventDefault();
+  });
+
+  window.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+
+    const totalWidth = divider.parentElement.offsetWidth;
+    const offsetX = e.clientX - divider.parentElement.offsetLeft;
+
+    const min = totalWidth * 0.2;
+    const max = totalWidth * 0.8;
+    const leftWidth = Math.min(Math.max(offsetX, min), max);
+
+    editorContainer.style.width = `${leftWidth}px`;
+    previewContainer.style.width = `${totalWidth - leftWidth - 6}px`;
+  });
+
+  window.addEventListener('mouseup', () => {
+    isDragging = false;
+    document.body.style.cursor = 'default';
+  });
+}
+
+// Dummy implementations for menu buttons
+function createFolder() {
+  alert('📁 폴더 생성 기능은 아직 구현되지 않았습니다.');
+}
+function createFile() {
+  alert('📄 파일 생성 기능은 아직 구현되지 않았습니다.');
+}
+function renameItem() {
+  alert('✏ 이름변경 기능은 아직 구현되지 않았습니다.');
+}
+function deleteItem() {
+  alert('🗑 삭제 기능은 아직 구현되지 않았습니다.');
 }
