@@ -11,25 +11,29 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/markdown/markdown.min.js"></script>
 </head>
 <body>
-  <div class="topbar">
-    <button onclick="createFolder()">📁 폴더 생성</button>
-    <button onclick="createFile()">📄 파일 생성</button>
-    <button onclick="renameItem()">✏ 이름변경</button>
-    <button onclick="deleteItem()">🗑 삭제</button>
-    <input type="file" id="fileInput" />
-  </div>
-
-  <div class="app-container">
-    <div class="sidebar">
-      <div id="fileTree"></div>
-    </div>
-
-    <div class="editor-preview-container">
-      <div id="editor-container" class="editor-container">
-        <textarea id="editor"></textarea>
+  <div id="stackedit-app">
+    <header class="stackedit-header">
+      <div class="stackedit-toolbar">
+        <button onclick="createFolder()">📁 폴더 생성</button>
+        <button onclick="createFile()">📄 파일 생성</button>
+        <button onclick="renameItem()">✏ 이름변경</button>
+        <button onclick="deleteItem()">🗑 삭제</button>
+        <input type="file" id="fileInput" />
       </div>
-      <div id="resizer" class="divider"></div>
-      <div id="preview" class="preview-container"></div>
+    </header>
+
+    <div class="stackedit-body">
+      <aside class="stackedit-sidebar">
+        <div id="fileTree"></div>
+      </aside>
+
+      <main class="stackedit-main">
+        <section id="editor-container" class="editor-container">
+          <textarea id="editor"></textarea>
+        </section>
+        <div id="resizer" class="divider"></div>
+        <section id="preview" class="preview-container"></section>
+      </main>
     </div>
   </div>
 
