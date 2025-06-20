@@ -1,34 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Markdown Editor</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/codemirror@5.65.5/lib/codemirror.css">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.5/lib/codemirror.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.5/mode/markdown/markdown.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.5/addon/display/autorefresh.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/codemirror@5.65.5/addon/edit/continuelist.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/markdown/markdown.min.js"></script>
 </head>
 <body>
-  <div class="app-container">
-    <div class="sidebar">
-      <ul id="fileTree"></ul>
-      <div class="sidebar-buttons">
-        <button onclick="addFolder()">📁 폴더 추가</button>
-        <button onclick="addFile()">📄 파일 추가</button>
-      </div>
-    </div>
 
-    <div class="editor-preview-container">
-      <div class="editor-pane">
-        <textarea id="editor"></textarea>
-      </div>
+  <div class="toolbar">
+    <input type="file" id="fileInput" />
+    <button onclick="createFolder()">📁 폴더 추가</button>
+    <button onclick="createFile()">📄 파일 추가</button>
+    <button onclick="deleteItem()">🗑️ 삭제</button>
+    <button onclick="renameItem()">✏️ 이름 변경</button>
+  </div>
+
+  <div style="display: flex; flex: 1; overflow: hidden;">
+    <div class="sidebar" id="fileTree"></div>
+    <div class="container">
+      <textarea id="editor"></textarea>
+      <div class="separator"></div>
       <div id="preview"></div>
     </div>
   </div>
 
   <script src="script.js"></script>
+
 </body>
 </html>
