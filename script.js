@@ -1,102 +1,79 @@
 let editorInstance;
-let selectedNode = null;
-let fileCounter = 1;
-let folderCounter = 1;
 
 window.addEventListener('DOMContentLoaded', () => {
   const textarea = document.getElementById('editor');
   const preview = document.getElementById('preview');
   const fileInput = document.getElementById('fileInput');
+  const editorContainer = document.getElementById('editor-container');
+  const previewContainer = document.getElementById('preview');
+  const resizer = document.getElementById('resizer');
 
   editorInstance = CodeMirror.fromTextArea(textarea, {
     lineNumbers: true,
     mode: 'markdown',
     theme: 'default',
     lineWrapping: true,
-    gutters: ["CodeMirror-linenumbers"],
   });
 
-  const style = document.createElement('style');
-  style.textContent = `.CodeMirror-linenumber { color: white; font-weight: bold; }`;
-  document.head.appendChild(style);
+  const updatePreview = () => {
+    const content = editorInstance.getValue();
+    preview.innerHTML = marked.parse(content);
+  };
 
   editorInstance.on('change', updatePreview);
+  updatePreview();
+
   fileInput.addEventListener('change', handleFileUpload);
 
-  updatePreview();
-  initFileTree();
-});
+  // Drag-to-resize
+  resizer.addEventListener('mousedown', function (e) {
+    e.preventDefault();
+    document.addEventListener('mousemove', resize);
+    document.addEventListener('mouseup', stopResize);
+  });
 
-function updatePreview() {
-  const content = editorInstance.getValue();
-  document.getElementById('preview').innerHTML = marked.parse(content);
-}
+  function resize(e) {
+    const totalWidth = editorContainer.parentNode.offsetWidth;
+    let newEditorWidth = e.clientX - editorContainer.offsetLeft;
+    const minWidth = totalWidth * 0.2;
+    const maxWidth = totalWidth * 0.8;
+
+    newEditorWidth = Math.max(minWidth, Math.min(maxWidth, newEditorWidth));
+    const previewWidth = totalWidth - newEditorWidth - 6;
+
+    editorContainer.style.flex = `0 0 ${newEditorWidth}px`;
+    previewContainer.style.flex = `0 0 ${previewWidth}px`;
+  }
+
+  function stopResize() {
+    document.removeEventListener('mousemove', resize);
+    document.removeEventListener('mouseup', stopResize);
+  }
+});
 
 function handleFileUpload(e) {
   const file = e.target.files[0];
   if (!file) return;
-
   const reader = new FileReader();
-  reader.onload = function () {
-    const content = reader.result;
-    if (file.name.endsWith('.json')) {
-      editorInstance.setOption('mode', 'javascript');
-    } else {
-      editorInstance.setOption('mode', 'markdown');
-    }
-    editorInstance.setValue(content);
-    updatePreview();
+  reader.onload = () => {
+    editorInstance.setValue(reader.result);
   };
   reader.readAsText(file);
 }
 
-function initFileTree() {
-  const root = document.getElementById('fileTree');
-  root.innerHTML = '';
-
-  const trash = createTreeItem('Trash', true);
-  const temp = createTreeItem('Temp', true);
-
-  root.appendChild(trash);
-  root.appendChild(temp);
-}
-
-function createTreeItem(name, isFolder = false, depth = 0) {
-  const item = document.createElement('div');
-  item.className = 'tree-item';
-  item.dataset.type = isFolder ? 'folder' : 'file';
-  item.dataset.depth = depth;
-
-  item.innerHTML = `<span class="indent" style="margin-left: ${depth * 16}px;"></span>${name}`;
-  item.onclick = () => {
-    selectedNode = item;
-  };
-
-  return item;
-}
-
+// Stub functions for file system (replace with actual logic if needed)
 function createFolder() {
-  const newFolder = createTreeItem(`Folder_${folderCounter++}`, true, 1);
-  document.getElementById('fileTree').appendChild(newFolder);
+  alert('📁 폴더 생성 기능은 아직 구현되지 않았습니다.');
 }
 
 function createFile() {
-  const newFile = createTreeItem(`File_${fileCounter++}.md`, false, 1);
-  document.getElementById('fileTree').appendChild(newFile);
-}
-
-function deleteItem() {
-  if (selectedNode) {
-    selectedNode.remove();
-    selectedNode = null;
-  }
+  alert('📄 파일 생성 기능은 아직 구현되지 않았습니다.');
 }
 
 function renameItem() {
-  if (selectedNode) {
-    const newName = prompt('새 이름을 입력하세요:', selectedNode.textContent.trim());
-    if (newName) {
-      selectedNode.childNodes[1].textContent = newName;
-    }
-  }
+  alert('✏ 이름변경 기능은 아직 구현되지 않았습니다.');
+}
+
+function deleteItem() {
+  alert('🗑 삭제 기능은 아직 구현되지 않았습니다.');
 }
