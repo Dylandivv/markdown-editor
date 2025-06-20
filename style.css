@@ -1,21 +1,28 @@
-body {
+* {
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
   font-family: sans-serif;
   background-color: #1e1e1e;
   color: #ddd;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .app-container {
   display: flex;
   height: 100vh;
+  width: 100vw;
   overflow: hidden;
 }
 
 .sidebar {
-  width: 220px;
+  width: 200px;
   background-color: #2b2b2b;
   padding: 10px;
-  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -28,6 +35,7 @@ body {
   border: none;
   padding: 6px;
   cursor: pointer;
+  font-size: 13px;
 }
 
 .sidebar button:hover {
@@ -53,15 +61,18 @@ body {
 .editor-preview-container {
   flex: 1;
   display: flex;
+  flex-direction: row;
   height: 100%;
+  width: 100%;
 }
 
-.editor-container, .preview-container {
+.editor-container,
+.preview-container {
   flex: 1;
   height: 100%;
   overflow-y: auto;
-  padding: 10px;
-  box-sizing: border-box;
+  overflow-x: hidden;
+  padding: 0;
 }
 
 .editor-container {
@@ -71,7 +82,7 @@ body {
 .preview-container {
   background-color: #1e1e1e;
   color: #ddd;
-  overflow-x: hidden;
+  padding: 10px;
   word-wrap: break-word;
   white-space: pre-wrap;
 }
@@ -79,6 +90,7 @@ body {
 .divider {
   width: 6px;
   background-color: #555;
+  cursor: col-resize;
 }
 
 .CodeMirror {
@@ -86,6 +98,7 @@ body {
   background-color: #1e1e1e;
   color: white;
   font-family: monospace;
+  line-height: 1.5;
 }
 
 .CodeMirror-linenumbers {
@@ -95,4 +108,8 @@ body {
 .CodeMirror-linenumber {
   color: white !important;
   font-weight: bold;
+}
+
+textarea#editor {
+  display: none; /* CodeMirror replaces this */
 }
