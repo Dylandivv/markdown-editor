@@ -1,33 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>JM Markdown Editor</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StackEdit Inspired Markdown Editor</title>
+  <link rel="stylesheet" href="style.css">
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/javascript/javascript.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/markdown/markdown.min.js"></script>
 </head>
 <body>
-  <div id="stackedit-app">
+  <div class="stackedit-app">
     <header class="stackedit-header">
-      <div class="stackedit-toolbar">
-        <button onclick="createFolder()">📁 폴더 생성</button>
-        <button onclick="createFile()">📄 파일 생성</button>
+      <div class="stackedit-logo">📄 JM Markdown</div>
+      <nav class="stackedit-toolbar">
+        <button onclick="createFolder()">📁 폴더</button>
+        <button onclick="createFile()">📄 파일</button>
         <button onclick="renameItem()">✏ 이름변경</button>
         <button onclick="deleteItem()">🗑 삭제</button>
-        <input type="file" id="fileInput" />
-      </div>
+        <input type="file" id="fileInput">
+      </nav>
     </header>
 
-    <div class="stackedit-body">
+    <div class="stackedit-workspace">
       <aside class="stackedit-sidebar">
         <div id="fileTree"></div>
       </aside>
-
-      <main class="stackedit-main">
+      <main class="stackedit-editor-panel">
         <section id="editor-container" class="editor-container">
           <textarea id="editor"></textarea>
         </section>
@@ -36,7 +36,6 @@
       </main>
     </div>
   </div>
-
   <script src="script.js"></script>
 </body>
 </html>
