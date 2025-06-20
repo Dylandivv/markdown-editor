@@ -1,97 +1,74 @@
-/* 기본 다크모드 설정 */
 body {
   margin: 0;
-  font-family: sans-serif;
+  padding: 0;
+  display: flex;
+  height: 100vh;
+  background-color: #121212;
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
+.sidebar {
+  width: 240px;
+  background-color: #1e1e1e;
+  border-right: 2px solid #333;
+  padding: 10px;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  background: #1e1e1e;
-  color: #ccc;
 }
 
-/* 툴바 영역 */
 .toolbar {
-  padding: 10px;
   display: flex;
-  gap: 10px;
-  background: #2e2e2e;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 10px;
 }
 
-/* 컨테이너 - 편집기와 미리보기 영역 */
+.toolbar button {
+  background-color: #333;
+  color: white;
+  border: none;
+  padding: 6px;
+  cursor: pointer;
+}
+
+.tree {
+  flex: 1;
+  overflow-y: auto;
+  font-size: 14px;
+}
+
+.tree-item {
+  padding: 5px;
+  color: white;
+}
+
 .container {
   display: flex;
   flex: 1;
-  overflow: hidden;
-}
-
-/* 편집기 스타일 */
-#editor, .CodeMirror {
-  width: 50%;
   height: 100%;
-  font-size: 16px;
-  background-color: #1e1e1e !important;
-  color: #ccc !important;
-  overflow-y: auto;
 }
 
-/* 코드미러 기본 스크롤 + 자동 줄바꿈 */
-.CodeMirror {
-  line-height: 1.5;
-  white-space: pre-wrap;
-  word-wrap: break-word;
+.editor-container,
+.preview {
+  flex: 1;
+  overflow-y: auto;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.editor-container {
+  background-color: #1e1e1e;
+}
+
+.preview {
+  background-color: #1e1e1e;
   overflow-x: hidden;
 }
 
-/* 줄 번호 색상 및 굵기 */
-.CodeMirror-gutters {
-  background-color: #1e1e1e !important;
-  color: #ffffff !important;
-  font-weight: bold;
-}
-
-/* 미리보기 영역 */
-#preview {
-  width: 50%;
-  padding: 20px;
-  overflow-y: auto;
-  border-left: 4px solid #666;
-  background: #1e1e1e;
-  color: #ccc;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-}
-
-/* 구분 막대 스타일 */
 .separator {
-  width: 4px;
-  background-color: #666;
-  cursor: col-resize;
-}
-
-/* 파일 탐색기 영역 (추후 좌측 트리용) */
-.sidebar {
-  width: 250px;
-  background-color: #2e2e2e;
-  color: #ccc;
-  padding: 10px;
-  overflow-y: auto;
-  border-right: 2px solid #444;
-}
-
-/* 트리구조 아이템 */
-.tree-item {
-  padding: 4px 8px;
-  cursor: pointer;
-}
-.tree-item:hover {
+  width: 8px;
   background-color: #444;
-}
-.tree-item.selected {
-  background-color: #555;
-}
-
-/* 파일 및 폴더 트리 들여쓰기 */
-.tree-item .indent {
-  display: inline-block;
-  width: 16px;
+  cursor: col-resize;
 }
