@@ -1,121 +1,125 @@
-/* style.css - StackEdit 스타일 기반 */
+/* style.css */
 
-body {
+:root {
+  --header-height: 48px;
+  --sidebar-width: 220px;
+  --editor-bg: #1e1e1e;
+  --preview-bg: #1e1e1e;
+  --text-color: #ffffff;
+  --divider-color: #555;
+  --toolbar-bg: #333;
+}
+
+* {
+  box-sizing: border-box;
   margin: 0;
+  padding: 0;
+}
+
+body, html {
+  height: 100%;
   font-family: 'Segoe UI', sans-serif;
-  background-color: #1e1e1e;
-  color: white;
-  height: 100vh;
+  background-color: #121212;
+  color: var(--text-color);
+}
+
+.stackedit-app {
   display: flex;
   flex-direction: column;
+  height: 100vh;
   overflow: hidden;
 }
 
-/* 상단 메뉴바 */
 .stackedit-header {
-  background-color: #333;
-  padding: 10px;
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  height: var(--header-height);
+  background-color: var(--toolbar-bg);
+  color: white;
+  padding: 0 1rem;
+  border-bottom: 1px solid #444;
 }
 
-.stackedit-toolbar button,
-.stackedit-toolbar input[type="file"] {
-  margin-right: 10px;
-  background-color: #555;
-  border: none;
+.stackedit-logo {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.stackedit-toolbar button {
+  margin-left: 0.5rem;
+  background: #444;
   color: white;
-  padding: 6px 12px;
+  border: none;
+  padding: 6px 10px;
   border-radius: 4px;
   cursor: pointer;
 }
 
-.stackedit-toolbar button:hover {
-  background-color: #777;
+.stackedit-toolbar input[type="file"] {
+  margin-left: 1rem;
+  color: white;
 }
 
-/* 전체 앱 영역 */
-.stackedit-body {
-  flex: 1;
+.stackedit-workspace {
   display: flex;
-  height: 100%;
-  overflow: hidden;
+  flex: 1;
+  height: calc(100vh - var(--header-height));
 }
 
-/* 왼쪽 탐색 트리 */
 .stackedit-sidebar {
-  width: 250px;
-  background-color: #252526;
-  padding: 10px;
+  width: var(--sidebar-width);
+  background-color: #222;
+  padding: 1rem;
   overflow-y: auto;
   border-right: 1px solid #444;
 }
 
-/* 메인 에디터/미리보기 영역 */
-.stackedit-main {
-  flex: 1;
+.stackedit-editor-panel {
   display: flex;
-  overflow: hidden;
+  flex: 1;
   position: relative;
+  overflow: hidden;
 }
 
-/* 에디터 스타일 */
 .editor-container {
-  flex: 1;
+  width: 50%;
   height: 100%;
   overflow: auto;
-  background-color: black;
-  color: white;
+  background-color: var(--editor-bg);
+  color: var(--text-color);
+  padding: 0;
 }
 
-/* 프리뷰 스타일 */
-.preview-container {
-  flex: 1;
-  padding: 10px;
-  overflow-y: auto;
-  overflow-x: hidden;
-  background-color: #1e1e1e;
-  color: white;
-  white-space: pre-wrap;
-  word-break: break-word;
-}
-
-/* textarea 비상용 (CodeMirror 대체) */
-#editor {
-  height: 100%;
-  width: 100%;
-  font-size: 16px;
-  padding: 10px;
-  border: none;
-  background-color: black;
-  color: white;
-}
-
-/* CodeMirror 전체 영역 */
 .CodeMirror {
   height: 100%;
-  background-color: black;
-  color: white;
-  line-height: 1.5;
+  background: var(--editor-bg);
+  color: var(--text-color);
   font-size: 16px;
-}
-
-/* 줄 번호 영역 */
-.CodeMirror-gutters {
-  background-color: black !important;
-  border-right: 1px solid #555;
+  line-height: 1.5;
 }
 
 .CodeMirror-linenumber {
-  color: white !important;
+  color: #ffffff;
   font-weight: bold;
 }
 
-/* 에디터-프리뷰 사이 구분선 */
 .divider {
-  width: 5px;
-  background-color: gray;
-  cursor: ew-resize;
-  position: relative;
-  z-index: 2;
+  width: 6px;
+  background-color: var(--divider-color);
+  cursor: col-resize;
+}
+
+.preview-container {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 1rem;
+  background-color: var(--preview-bg);
+  color: var(--text-color);
+}
+
+#fileTree div.selected {
+  background-color: #444;
+  color: white;
 }
