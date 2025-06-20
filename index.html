@@ -1,35 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Markdown Editor</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.css">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/markdown/markdown.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/mode/javascript/javascript.min.js"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.5/codemirror.min.css" rel="stylesheet"/>
 </head>
 <body>
-  <div class="sidebar">
-    <div class="toolbar">
-      <button onclick="createFolder()">📁 폴더 생성</button>
-      <button onclick="createFile()">📄 파일 생성</button>
-      <button onclick="renameItem()">✏️ 이름변경</button>
+  <div class="app-container">
+    <div class="sidebar">
+      <button onclick="createFolder()">📁 새 폴더</button>
+      <button onclick="createFile()">📄 새 파일</button>
+      <button onclick="renameItem()">✏️ 이름 변경</button>
       <button onclick="deleteItem()">🗑 삭제</button>
-      <input type="file" id="fileInput">
+      <div id="fileTree"></div>
     </div>
-    <div class="tree" id="fileTree"></div>
-  </div>
-  <div class="container">
-    <div class="editor-container">
-      <textarea id="editor"></textarea>
-    </div>
-    <div class="separator"></div>
-    <div class="preview" id="preview"></div>
-  </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/codemirror.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/markdown/markdown.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.13/mode/javascript/javascript.min.js"></script>
+    <div class="editor-preview-container">
+      <div class="editor-container">
+        <textarea id="editor"></textarea>
+      </div>
+      <div class="divider"></div>
+      <div id="preview" class="preview-container"></div>
+    </div>
+  </div>
+  <input type="file" id="fileInput" />
   <script src="script.js"></script>
 </body>
 </html>
